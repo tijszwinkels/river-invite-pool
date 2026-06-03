@@ -9,6 +9,10 @@ cron) tops it back up.
 > Works today for the **Off Topic** room. One repo can serve **many rooms** — each gets its
 > own page/URL (see [Use it for another room](#use-it-for-another-room)).
 
+Beware! - This is now a quickly vibe-coded tool. Not reviewed, be aware this is not 
+secure. Users can potentially imitate other users in the target chatroom since it leaks the invites.
+ONLY USE for public rooms, and even then use with care.
+
 ---
 
 ## Quick start
