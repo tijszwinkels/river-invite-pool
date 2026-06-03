@@ -16,3 +16,5 @@ src/config.generated.js
 pool/*-codes.txt
 # mattermost bridge attachment inbox — not project source
 .mattermost-inbox/
+# real per-room config (your room VKs/contract ids) — copy targets.example.json → targets.json
+targets.json

@@ -26,6 +26,10 @@ cron) tops it back up.
   ```sh
   npm install        # esbuild, cbor-x, bs58, @freenetorg/freenet-stdlib
   ```
+- Your config — the real `targets.json` is **local-only** (gitignored); start from the example:
+  ```sh
+  cp targets.example.json targets.json    # then edit it — see "Use it for another room"
+  ```
 
 **Build & publish a page** (for an already-configured target, e.g. `offtopic`):
 
@@ -60,7 +64,7 @@ riverctl --config-dir ./.riverctl-myroom invite accept "<paste invite code>" -N 
 The owner key never leaves the owner's River — your bot only ever holds its **own member
 key** (in `.riverctl-myroom/`, gitignored).
 
-**2 · Add the room to [`targets.json`](targets.json):**
+**2 · Add the room to `targets.json`** (your local copy of [`targets.example.json`](targets.example.json)):
 
 ```json
 {
@@ -200,7 +204,8 @@ minimal environment.
 
 | Path | Role |
 |---|---|
-| `targets.json` | per-room config (the only thing you edit to add a room) |
+| `targets.example.json` | template config — copy to `targets.json` and fill in your room |
+| `targets.json` | your per-room config (**local-only, gitignored**; the only thing you edit to add a room) |
 | `src/decode.js` | CBOR → invitee VK / member VKs (shared by node + browser) |
 | `src/pick.js` | pure unused-filter + random pick (+ localStorage de-dup); unit-tested |
 | `src/read-room.js` | open WS, GET room contract, decode → `Set<vk>` |

@@ -1,0 +1,12 @@
+{
+  "myroom": {
+    "roomName":          "My Room",
+    "tag":               "single-use invites · live",
+    "roomOwnerVk":       "REPLACE_WITH_ROOM_OWNER_VERIFYING_KEY",
+    "roomContract":      "REPLACE_WITH_ROOM_CONTRACT_ID",
+    "riverBase":         "/v1/contract/web/REPLACE_WITH_YOUR_RIVER_APP_ID/",
+    "poolFile":          "pool/myroom-codes.txt",
+    "riverctlConfigDir": ".riverctl-myroom",
+    "webKeys":           ".web-keys-myroom.toml"
+  }
+}
