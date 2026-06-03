@@ -1,0 +1,17 @@
+{
+  "name": "river-invite-pool",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Serverless Freenet web contract: hands out unused single-use River invites with a live 'N of M left' counter.",
+  "scripts": {
+    "build": "scripts/build-web.sh",
+    "test": "node --test test/"
+  },
+  "devDependencies": {
+    "@freenetorg/freenet-stdlib": "^0.2.0",
+    "bs58": "^6.0.0",
+    "cbor-x": "^1.6.4",
+    "esbuild": "^0.28.0"
+  }
+}
