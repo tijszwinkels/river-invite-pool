@@ -1,0 +1,12 @@
+[Unit]
+Description=River invite-pool auto-replenish timer (%i) — hourly check
+
+[Timer]
+OnCalendar=hourly
+# Catch up after downtime (machine asleep) instead of skipping the missed run.
+Persistent=true
+# Spread load / avoid an on-the-hour spike.
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target
