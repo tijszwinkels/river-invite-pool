@@ -110,12 +110,14 @@ never touches the first. (Targets are fully isolated.)
 ./scripts/refill.sh offtopic 30        # mint 30 more → rebuild → republish (same URL)
 ```
 
-**Automatically** — top up to 50 whenever it drops below 20. `autoreplenish.sh` reads the
-**live** count and only mints when needed (fail-safe: never mints if the read fails; sends a
-`signal` note when it does replenish):
+**Automatically** — every run `autoreplenish.sh` (a) **prunes used invites** from the pool
+(a used invite still embeds the now-joined member's private key, so spent invites are dropped
+from the public page within the hour) and (b) **tops up to 40** whenever unused drops to **≤20**.
+It republishes only when the pool actually changed, so a quiet hour bumps no version.
+Fail-safe: if the live read fails, nothing is pruned, minted, or published.
 
 ```sh
-./scripts/autoreplenish.sh offtopic                 # defaults: low=20, target=50
+./scripts/autoreplenish.sh offtopic                 # defaults: low=20, target=40
 ./scripts/autoreplenish.sh offtopic <low> <target>  # custom thresholds
 ```
 
@@ -147,8 +149,8 @@ in the timer (e.g. `*:0/30` = every 30 min, `daily`); change thresholds via the 
 crontab -e
 ```
 ```cron
-# top Off Topic back up to 50 whenever it dips below 20 — check hourly
-0 * * * * /ABSOLUTE/PATH/TO/river-invite-pool/scripts/autoreplenish.sh offtopic >> /tmp/river-autoreplenish.log 2>&1
+# hourly: prune used invites + top Off Topic back up to 40 whenever it dips to <=20
+0 * * * * /ABSOLUTE/PATH/TO/river-invite-pool/scripts/autoreplenish.sh offtopic 20 40 >> /tmp/river-autoreplenish.log 2>&1
 ```
 
 The scripts set their own `PATH` and use absolute tool paths, so they run fine under cron's
@@ -219,7 +221,9 @@ minimal environment.
 | `scripts/build-web.sh` | `<target>` → esbuild bundle into `.build/<target>/web/` |
 | `scripts/publish.sh` | `<target> [version]` → sign + `fdev put`; advances the version counter |
 | `scripts/refill.sh` | `<target> <count>` → mint → append → rebuild → publish (one command) |
-| `scripts/autoreplenish.sh` | `<target> [low] [target]` → top up only when low (for cron) |
+| `scripts/prune-pool.mjs` | `<target>` → drop already-used invites from the pool (fail-safe); prints `UNUSED/TOTAL/USED/REMOVED` |
+| `read-spike/get-state.mjs` | shared WS `readState()` — GET a contract's state bytes (used by `read.mjs` + `prune-pool.mjs`) |
+| `scripts/autoreplenish.sh` | `<target> [low] [target]` → prune used every run; top up when unused ≤ low (for cron) |
 | `deploy/` | systemd user timer/service templates |
 | `published-version-<target>.txt` | monotonic per-target version counter |
 | `test/` | hermetic unit tests over captured fixtures |
