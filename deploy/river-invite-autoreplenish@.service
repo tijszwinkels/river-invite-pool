@@ -1,11 +1,11 @@
 [Unit]
-Description=River invite-pool auto-replenish (%i): top up to 50 when unused < 20
+Description=River invite-pool auto-replenish (%i): prune used hourly; top up to 40 when unused <= 20
 Documentation=https://github.com/tijszwinkels/river-invite-pool
 
 [Service]
 Type=oneshot
-# %i = target name from targets.json (e.g. offtopic). Script defaults: low=20, target=50.
-# To change thresholds, append args:  ExecStart=… %i <low> <target>
+# %i = target name from targets.json (e.g. offtopic). Args: <target> <low> <target_size>.
+# Every run prunes used invites; tops up to <target_size> when unused <= <low>.
 # ⚠ Adjust the path below to where YOU cloned this repo (%h = your home dir).
-ExecStart=%h/projects/dataverse/freenet/river-invite-pool/scripts/autoreplenish.sh %i
+ExecStart=%h/projects/dataverse/freenet/river-invite-pool/scripts/autoreplenish.sh %i 20 40
 TimeoutStartSec=600
